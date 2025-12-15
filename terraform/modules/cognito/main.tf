@@ -51,3 +51,5 @@ resource "aws_cognito_user_pool_domain" "this" {
   domain       = replace("${var.name}-auth", "_", "-")
   user_pool_id = aws_cognito_user_pool.this.id
 }
+
+data "aws_region" "current" {}

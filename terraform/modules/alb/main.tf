@@ -108,3 +108,27 @@ resource "aws_lb_listener" "https" {
     target_group_arn = aws_lb_target_group.this.arn
   }
 }
+
+resource "aws_lb_listener_rule" "logout" {
+  count        = var.enable_https && var.enable_cognito_auth ? 1 : 0
+  listener_arn = aws_lb_listener.https[0].arn
+  priority     = 10
+
+  condition {
+    path_pattern {
+      values = ["/logout"]
+    }
+  }
+
+  action {
+    type = "redirect"
+
+    redirect {
+      protocol    = "HTTPS"
+      host        = var.cognito_hosted_domain
+      path        = "/logout"
+      query       = "client_id=${var.cognito_user_pool_client_id}&logout_uri=${urlencode("https://${var.app_fqdn}/")}"
+      status_code = "HTTP_302"
+    }
+  }
+}

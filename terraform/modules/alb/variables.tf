@@ -33,3 +33,15 @@ variable "cognito_user_pool_domain" {
   type    = string
   default = null
 }
+
+variable "app_fqdn" {
+  type        = string
+  description = "e.g. ecs.bekarys2003.com"
+  default     = null
+}
+
+variable "cognito_hosted_domain" {
+  type        = string
+  description = "Full Cognito hosted UI domain, e.g. xxx.auth.ca-central-1.amazoncognito.com"
+  default     = null
+}

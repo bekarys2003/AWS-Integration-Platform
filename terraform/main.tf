@@ -23,6 +23,8 @@ module "alb" {
   cognito_user_pool_arn       = module.cognito.user_pool_arn
   cognito_user_pool_client_id = module.cognito.client_id
   cognito_user_pool_domain    = module.cognito.domain
+  app_fqdn                    = var.route53_record_name
+  cognito_hosted_domain       = module.cognito.hosted_domain
 }
 
 

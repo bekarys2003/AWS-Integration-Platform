@@ -18,3 +18,7 @@ output "client_secret" {
 output "domain" {
   value = aws_cognito_user_pool_domain.this.domain
 }
+
+output "hosted_domain" {
+  value = "${aws_cognito_user_pool_domain.this.domain}.auth.${data.aws_region.current.region}.amazoncognito.com"
+}
