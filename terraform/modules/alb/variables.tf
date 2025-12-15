@@ -13,3 +13,23 @@ variable "certificate_arn" {
   description = "ACM certificate ARN for HTTPS"
   default     = null
 }
+
+variable "enable_cognito_auth" {
+  type    = bool
+  default = false
+}
+
+variable "cognito_user_pool_arn" {
+  type    = string
+  default = null
+}
+
+variable "cognito_user_pool_client_id" {
+  type    = string
+  default = null
+}
+
+variable "cognito_user_pool_domain" {
+  type    = string
+  default = null
+}

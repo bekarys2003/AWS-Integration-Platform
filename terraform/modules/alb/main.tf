@@ -88,8 +88,23 @@ resource "aws_lb_listener" "https" {
   ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
   certificate_arn   = var.certificate_arn
 
+  dynamic "default_action" {
+    for_each = var.enable_cognito_auth ? [1] : []
+    content {
+      type  = "authenticate-cognito"
+      order = 1
+
+      authenticate_cognito {
+        user_pool_arn       = var.cognito_user_pool_arn
+        user_pool_client_id = var.cognito_user_pool_client_id
+        user_pool_domain    = var.cognito_user_pool_domain
+      }
+    }
+  }
+
   default_action {
     type             = "forward"
+    order            = var.enable_cognito_auth ? 2 : 1
     target_group_arn = aws_lb_target_group.this.arn
   }
 }

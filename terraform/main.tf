@@ -18,7 +18,13 @@ module "alb" {
 
   enable_https    = true
   certificate_arn = module.acm.certificate_arn
+
+  enable_cognito_auth         = true
+  cognito_user_pool_arn       = module.cognito.user_pool_arn
+  cognito_user_pool_client_id = module.cognito.client_id
+  cognito_user_pool_domain    = module.cognito.domain
 }
+
 
 
 module "ecs" {
@@ -50,5 +56,12 @@ module "acm" {
   source = "./modules/acm"
 
   zone_name   = var.route53_zone_name
-  domain_name = var.route53_record_name  # ecs.bekarys2003.com
+  domain_name = var.route53_record_name # ecs.bekarys2003.com
+}
+
+module "cognito" {
+  source = "./modules/cognito"
+
+  name     = local.name
+  app_fqdn = var.route53_record_name
 }
