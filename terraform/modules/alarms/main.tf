@@ -1,6 +1,7 @@
 resource "aws_cloudwatch_metric_alarm" "dlq_messages" {
   alarm_name          = "${var.name}-dlq-visible-gt-0"
   alarm_description   = "DLQ has messages visible (poison messages / processing failures)."
+
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 1
   metric_name         = "ApproximateNumberOfMessagesVisible"
@@ -13,4 +14,7 @@ resource "aws_cloudwatch_metric_alarm" "dlq_messages" {
   dimensions = {
     QueueName = var.dlq_name
   }
+
+  alarm_actions = [var.sns_topic_arn]
+  ok_actions    = [var.sns_topic_arn]
 }

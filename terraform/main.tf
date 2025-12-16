@@ -103,7 +103,15 @@ module "hr_feed_consumer_lambda" {
 }
 
 module "dlq_alarm" {
-  source   = "./modules/alarms"
-  name     = local.name
-  dlq_name = "${local.name}-hr-feed-queue-dlq"
+  source         = "./modules/alarms"
+  name           = local.name
+  dlq_name       = "${local.name}-hr-feed-queue-dlq"
+  sns_topic_arn  = module.alerts_sns.topic_arn
+}
+
+
+module "alerts_sns" {
+  source = "./modules/sns"
+  name   = local.name
+  email  = "bek.arys@inbox.ru"
 }
